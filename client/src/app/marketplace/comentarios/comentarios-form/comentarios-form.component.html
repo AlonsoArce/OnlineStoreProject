@@ -1,0 +1,30 @@
+<div class="dialog">
+
+    <mat-dialog-content class="mat-typography">
+        <mat-form-field class="field" appearance="outline">
+            <mat-label class="text">Pregunta</mat-label>
+            <input id="mensaje" #name="ngModel"  minlength="4" [(ngModel)]="data.mensaje" required class="input" matInput
+                placeholder="Pregunta">
+            <mat-icon class="icon" matSuffix>forum</mat-icon>
+        </mat-form-field>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
+
+            
+            <mat-error *ngIf="name.errors?.['required']">La pregunta no puede enviarse vacio.</mat-error>
+     
+            <mat-error *ngIf="name.errors?.['minlength']">La pregunta no puede tener menos de 4 caracteres.
+            </mat-error>
+        
+
+        </div>
+
+
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button type="button" (click)="cerrarDialog()">Cerrar</button>
+        <button mat-raised-button type="submit" [disabled]="name.errors?.['minlength'] || name.errors?.['required'] ?true:false" [mat-dialog-close]="data" cdkFocusInitial>Enviar pregunta</button>
+
+    </mat-dialog-actions>
+
+</div>

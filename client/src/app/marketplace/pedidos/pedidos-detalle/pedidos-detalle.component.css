@@ -1,0 +1,37 @@
+.dashboard-card {
+  background-color: aliceblue;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.example-card {
+  max-width: 250px;
+  height: 550px;
+  background-color: whitesmoke;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button {
+  background-color: bisque;
+  text-align: justify;
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.navBar {
+  background-color: white;
+  margin-top: 20px;
+  margin-right: 30px;
+}

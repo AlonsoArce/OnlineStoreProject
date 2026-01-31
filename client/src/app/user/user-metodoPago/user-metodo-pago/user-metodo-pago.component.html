@@ -1,0 +1,52 @@
+<div class="contenedor">
+  <form [formGroup]="metodoPagoForm" novalidate>
+    <input type="hidden" formControlName="clienteId" />
+    <div class="infoMetodoPago">
+      <div class="col">
+        <mat-form-field class="cajitas" *ngIf="listTiposPago">
+          <mat-select placeholder="Tipo de Pago" formControlName="tipo">
+            <mat-option value="">Seleccione metodo de pago</mat-option>
+            <mat-option *ngFor="let tipo of listTiposPago" [value]="tipo">
+              {{ tipo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="cajitas">
+          <input matInput placeholder="Proveedor" formControlName="proveedor">
+          <mat-error *ngIf="errorHandling('proveedor','required')">
+            Proveedor es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('proveedor','minlength')">
+            Proveedor debe tener como mínimo <strong>2 caracteres</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('proveedor','maxlength')">
+            Proveedor debe tener como máximo <strong>6 caracteres</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="cajitas">
+          <input matInput placeholder="Número Cuenta" formControlName="numeroCuenta">
+          <mat-error *ngIf="errorHandling('numeroCuenta','required')">
+            Número Cuenta es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('numeroCuenta','minlength')">
+            Número Cuenta debe tener como mínimo <strong>16 caracteres</strong>
+          </mat-error>
+          <mat-error *ngIf="errorHandling('numeroCuenta','maxlength')">
+            Número Cuenta debe tener como máximo <strong>18 caracteres</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="cajitas">
+          <input matInput placeholder="Fecha Expiración" formControlName="fechaExpiracion">
+          <mat-error *ngIf="errorHandling('fechaExpiracion','required')">
+            Fecha Expiración es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="footer">
+          <div class="div">
+            <button mat-raised-button color="primary" (click)="guardarMetodoPago()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

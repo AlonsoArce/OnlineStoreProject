@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">       
+        <select (change)="onProvinceChange($event)" >
+          <option value="">Selecciona una provincia</option>
+          <option *ngFor="let provincia of provincias" [value]="provincia.id">
+            {{ provincia.nombre }}
+          </option>
+        </select>
+           
+        <select *ngIf="selectedProvince" (change)="onCantonChange($event)" >
+          <option value="">Selecciona un cantón</option>
+          <option *ngFor="let canton of cantones" [value]="canton.id">
+            {{ canton.nombre }}
+          </option>
+        </select>
+        
+        <select *ngIf="selectedCanton" (change)="onDistrictChange($event)">
+          <option value="">Selecciona un distrito</option>
+          <option *ngFor="let distrito of distritos" [value]="distrito.id">
+            {{ distrito.nombre }}</option>
+        </select>    
+    </div>   
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="submitForm()">Guardar</button>
+    </mat-card-actions>  
+  </div> 

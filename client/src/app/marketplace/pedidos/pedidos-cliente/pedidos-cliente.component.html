@@ -1,0 +1,28 @@
+<mat-card class="grid-container">
+    <!-- Titulo del Card -->
+    <mat-card-title>
+        Pedidos x cliente
+
+    </mat-card-title>
+    <mat-grid-list [cols]="3" rowHeight="15em" gutterSize="10px">
+        <mat-grid-tile *ngFor="let item of datos" >
+            <mat-card class="dashboard-card">
+                <mat-card-header>
+                    <mat-card-title>ID: {{item.id}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content">
+                    <div>Estado: {{item.estado}}</div>
+                    <p>Total: {{item.total}} <br> Cantidad Productos: {{item.detallesOrden.length}} </p>
+                </mat-card-content>
+                <mat-divider inset></mat-divider>
+                <mat-card-actions>
+                    <button color="accent" matTooltip="Detalle" aria-label="Detalle"
+                        color="primary" mat-button (click)="detallePedido(item.id)">
+                        + Detalles
+                    </button>
+                    
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>

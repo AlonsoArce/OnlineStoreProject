@@ -1,0 +1,114 @@
+<form [formGroup]="productoForm" (ngSubmit)="isCreate ? crearProducto() : actualizarProducto()"  novalidate >
+    <input type="hidden" formControlName="id"  />
+    <input type="hidden" formControlName="vendedorId"  />
+    <mat-card class="shipping-card">
+      <mat-card-header>
+        <mat-card-title>{{titleForm}} Producto</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nombre" formControlName="nombre" >
+              <mat-error *ngIf="errorHandling('nombre','required')">
+                Nombre es <strong>requerido</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('nombre','minlength')">
+                Nombre debe tener como mínimo <strong>10 caracteres</strong> 
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Descripción" formControlName="descripcion">
+              <mat-error *ngIf="errorHandling('descripcion','required')">
+                Descripción es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="errorHandling('descripcion','minlength')">
+                Descripción debe tener como mínimo <strong>15 caracteres</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('descripcion','maxlength')">
+                Descripción debe tener como máximo <strong>200 caracteres</strong> 
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Precio" formControlName="precio">
+              <mat-error *ngIf="errorHandling('precio','required')">
+                Precio es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="errorHandling('precio','minlength')">
+                Precio no debe ser un número menor de <strong>4 dígitos</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('precio','maxlength')">
+                Precio no debe ser un número mayor de <strong>6 dígitos</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('precio','pattern')">
+                Precio es un dato númerico <strong>no debe contener caracteres</strong> 
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Cantidad" formControlName="cantidad">
+              <mat-error *ngIf="errorHandling('cantidad','required')">
+                La Cantidad es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="errorHandling('cantidad','minlength')">
+                La Cantidad no debe ser un número menor de <strong>5 dígitos</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('cantidad','maxlength')">
+                La Cantidad no debe ser un número mayor de <strong>6 dígitos</strong> 
+              </mat-error>
+              <mat-error *ngIf="errorHandling('cantidad','pattern')">
+                La Cantidad es un dato númerico <strong>no debe contener caracteres</strong> 
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Estado" formControlName="estado">
+                <mat-option *ngFor="let e of listEstados" [value]="e">
+                  {{e}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" >
+            <input (change)="onFileChange($event)" type="file" multiple class="file">  
+          </div>                     
+        </div>
+        <!-- <div class="row">
+          <div class="col" *ngIf="productoInfo.fotos" >    
+           <ng-container *ngFor="let foto of productoInfo.fotos"> 
+              <img class="imagen" [src]="'http://localhost:3000'+foto.url"> 
+            </ng-container>   -->  
+              <!-- <mat-list role="list" placeholder="Fotos">
+                <mat-list-item role="listitem" *ngFor="let foto of productoInfo.fotos">
+                  <img class="imagen" [src]="'http://localhost:3000'+foto.url">
+                </mat-list-item>       
+              </mat-list>                    
+          </div>
+        </div>         -->     
+        <div class="row">       
+          <div class="col" *ngIf="categorias">
+            <mat-form-field >
+              <mat-select placeholder="Categorias" formControlName="categoriaId">
+                <mat-option *ngFor="let c of categorias" [value]="c.id">
+                  {{c.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Guardar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>

@@ -1,0 +1,87 @@
+<mat-card class="full-width">
+    <button mat-flat-button color="accent" [routerLink]="['/productos/vendedor/',currentUser.user.id]">
+        Volver Atras
+         <mat-icon>keyboard_backspace</mat-icon>
+       </button>
+    <!-- Titulo del Card -->
+    <mat-card-title class="title">
+        Preguntas por producto: {{producto}}
+
+    </mat-card-title>
+    <mat-card-content>
+        <!-- Table -->
+        <div class="mat-elevation-z8" *ngIf="dataSource">
+            <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
+                <!-- Columna pregunta -->
+                <ng-container matColumnDef="pregunta">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pregunta</th>
+                    <td mat-cell *matCellDef="let row">{{row.mensaje}}</td>
+                </ng-container>
+                <!-- Columna respuesta -->
+                <ng-container matColumnDef="respuesta">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Respuesta</th>
+                    <td mat-cell *matCellDef="let row">
+                        <ng-container *ngIf="row.respuesta!=''">
+                            {{row.respuesta}}
+                        </ng-container>
+                        <ng-container  *ngIf="row.respuesta==''">
+                           ** Respuesta en espera **
+                        </ng-container>
+
+
+                    </td>
+                </ng-container>
+                <!-- Columna respuesta -->
+                <ng-container matColumnDef="form">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Form</th>
+                    <td mat-cell *matCellDef="let row">
+
+                        <ng-container
+                            *ngIf="row.respuesta == '' ||  actualizar == true && row.id == preguntaId">
+                            <mat-form-field>
+                                <mat-label>Escribe una respuesta</mat-label>
+                                <input matInput id="respuesta" type="text" [formControl]="respuesta">
+                                <button mat-icon-button matSuffix (click)="responder(row)">
+                                    <mat-icon>send</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+                <!-- Columna -->
+                <ng-container matColumnDef="accion">
+
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button matSuffix
+                            *ngIf="row.respuesta != '' && actualizar == false  || row.respuesta != '' &&  actualizar == true && row.id != preguntaId; else elseBlock"
+                            (click)="editar(row)">
+                            <mat-icon>edit_note</mat-icon>
+                        </button>
+                        <ng-template #elseBlock>
+                            <button mat-icon-button matSuffix *ngIf="actualizar==true && row.id == preguntaId"
+                                (click)="cerrar(row)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="3"
+                [pageSizeOptions]="[3,5, 10, 20]" aria-label="Selecccione una página">
+            </mat-paginator>
+        </div>
+        <!-- Table -->
+    </mat-card-content>
+    <mat-card-footer>
+    </mat-card-footer>
+</mat-card>
+<mat-card>
+
+</mat-card>

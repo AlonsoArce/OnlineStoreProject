@@ -1,0 +1,20 @@
+<div class="contenedor">
+<mat-card class="example-card" *ngIf="datos"  >
+    <mat-card-header>
+      <mat-card-title>
+        ID Pedido {{datos.id }}
+       
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <p><b>Estado Pedido: </b>{{datos.estado}}</p>
+      <p><b>Productos: </b></p>
+      <ul *ngIf="datos.detallesOrden">
+         <li *ngFor="let item of datos.detallesOrden"> {{item.producto.nombre}} --> {{item.estadoDetalle}}</li>
+      </ul>
+    </mat-card-content>
+    <mat-card-footer>
+      <button mat-card-button class="button" (click)="regresar()"><p class="textButton">Regresar</p></button>
+      </mat-card-footer>
+  </mat-card>
+</div>

@@ -1,0 +1,106 @@
+<mat-toolbar class="header">
+
+  <button mat-icon-button [matMenuTriggerFor]="menu1" class="example-icon"
+    aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  
+  
+
+  <button mat-button [routerLink]="['/']" class="example-icon" aria-label="home">
+    <img class="icon-container" src="../../../assets/iconos/icono_tienda.avif" alt="Icon">
+    <span class="title"> | Closet By Paula | MarketPlace</span>
+  </button>
+
+
+
+  <span class="example-spacer"></span>
+  <!-- usuario -->
+
+  <mat-menu #menu1="matMenu" class="menu">
+    <button *ngIf="isUser && !isVendedor" mat-menu-item [routerLink]="['/productos']"
+    routerLinkActive="mat-raised-button">MarketPlace</button>
+  <button *ngIf="isUser &&!isVendedor" mat-menu-item [routerLink]="['/pedidos/',idUser]"
+    routerLinkActive="mat-raised-button">Tus Pedidos</button>
+  <button *ngIf="isUser && !isVendedor" mat-menu-item [routerLink]="['usuarios/metodosPago']"
+    routerLinkActive="mat-raised-button">Crear Metodos de
+    Pago</button>
+  <button mat-menu-item *ngIf="isUser &&!isVendedor" [routerLink]="['usuarios/direcciones']" routerLinkActive="mat-raised-button">Crear
+    Direcciones</button>
+
+    <button *ngIf="isUser && isVendedor" mat-menu-item [routerLink]="['/productos']"
+      routerLinkActive="mat-raised-button">MarketPlace</button>
+    <button *ngIf="isUser&&isVendedor" mat-menu-item [routerLink]="['/pedidos/',idUser]"
+      routerLinkActive="mat-raised-button">Tus Pedidos</button>
+    <button *ngIf="isUser && isVendedor" mat-menu-item [routerLink]="['usuarios/metodosPago']"
+      routerLinkActive="mat-raised-button">Crear Metodos de
+      Pago</button>
+    <button mat-menu-item *ngIf="isUser ||isVendedor" [routerLink]="['usuarios/direcciones']" routerLinkActive="mat-raised-button">Crear
+      Direcciones</button>
+
+    <button *ngIf="isUser &&isVendedor" mat-menu-item [routerLink]="['productos/vendedor/',idUser]"
+      routerLinkActive="mat-raised-button">Tus 
+      Productos (Vendedor)
+    </button>
+    <button *ngIf="isUser &&isVendedor" mat-menu-item [routerLink]="['pedidos/vendedor/',idUser]"
+      routerLinkActive="mat-raised-button">Tus
+      Pedidos (Vendedor)
+    </button>
+
+    <button *ngIf="!isUser && isVendedor" mat-menu-item [routerLink]="['productos/vendedor/',idUser]"
+      routerLinkActive="mat-raised-button">Tus 
+      Productos (Vendedor)
+    </button>
+    <button *ngIf="!isUser && isVendedor" mat-menu-item [routerLink]="['pedidos/vendedor/',idUser]"
+      routerLinkActive="mat-raised-button">Tus
+      Pedidos (Vendedor)
+    </button>
+
+    <button mat-menu-item *ngIf="isAdmin"[routerLink]="['/productos/vendedores']"
+      routerLinkActive="mat-raised-button">Vendedores</button>
+    <button mat-menu-item *ngIf="isAdmin"[matMenuTriggerFor]="menu7" routerLinkActive="mat-raised-button">Mantenimientos</button>
+  </mat-menu>
+  <mat-menu #menu7="matMenu" class="menu">
+    <button mat-menu-item [routerLink]="['/usuarios/habilitados']" routerLinkActive="mat-raised-button">Usuarios
+      Habilitados</button>
+    <button mat-menu-item [routerLink]="['/usuarios/deshabilitados']" routerLinkActive="mat-raised-button">Usuarios
+      DesHabilitados</button>
+    <button mat-menu-item [routerLink]="['/usuarios/informes']" routerLinkActive="mat-raised-button">Informes</button>
+
+  </mat-menu>
+
+
+  <!-- Fin del if -->
+  <div class="example-button-container"></div>
+  <div class="example-spacer"></div>
+  <div class="example-spacer">
+    <!-- Enlaces de la aplicacion-->
+    <!--https://material.angular.io/components/icon-->
+    <!-- https://fonts.google.com/icons -->
+    <!-- https://material.angular.io/guide/typography -->
+    <!-- Carrito de comprar presenta la cantidad -->
+    <button mat-icon-button matBadgeColor="accent" [matBadge]="qtyItems.toString()" [routerLink]="'/orden'"
+      [routerLinkActive]="'mat-raised-button'" aria-label="Cantidad">
+      <mat-icon>shopping_cart</mat-icon>
+    </button> |
+    <!-- Revisar como llamar variables en angular-->
+    <button mat-icon-button [matMenuTriggerFor]="menu3">
+      <mat-icon [ngStyle]="{'color':isAuthenticated ? 'white':'#9E9E9E'}">person</mat-icon>
+    </button>
+    <span class="mat-caption" *ngIf="isAuthenticated">{{currentUser.user.correoElectronico}}</span>
+
+    <!--Menu usuario-->
+
+    <mat-menu #menu3="matMenu">
+      <a mat-menu-item *ngIf="!(isAuthenticated)" (click)="login()">
+        <mat-icon>person_add</mat-icon>
+        <span>Login</span>
+      </a>
+      <a mat-menu-item *ngIf="isAuthenticated" (click)="logout()">
+        <mat-icon>person_remove</mat-icon>
+        <span>Logout</span>
+      </a>
+    </mat-menu>
+  </div>
+
+</mat-toolbar>

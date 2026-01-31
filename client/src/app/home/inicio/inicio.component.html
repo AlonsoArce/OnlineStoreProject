@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Closet By Paula</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Aqui encontraras los grandiosos productos para el cuidado necesario para tu bebé</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    Mira nuestros Productos
+  </mat-card-header>
+  <button mat-raised-button (click)="goTo('productos')">
+    Productos 🛍
+  </button>
+  
+</mat-card>
+
+<mat-card *ngIf="!isUser">
+  <mat-card-header>
+   ¿Quieres comprar algo?
+  </mat-card-header>
+  <button mat-raised-button [routerLink]="['/usuario/registrar']">
+    ¡Inicia Sesion! 😁
+  </button>
+  
+</mat-card>

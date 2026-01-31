@@ -1,0 +1,189 @@
+<mat-stepper orientation="vertical" [linear]="true" #stepper>
+  <mat-step *ngIf="formalizarCarritoClicked"> <!--[stepControl]="firstFormGroup"-->
+    <ng-template matStepLabel>Tu Carrito</ng-template>
+    <mat-card class="box">
+      <mat-card-content>
+        Fecha: {{fecha | date: 'dd/MM/yyyy'}}
+        |
+        <button mat-flat-button color="accent" [routerLink]="['/productos']">
+          Seguir Comprando
+          <mat-icon>shopping_bag</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="box">
+      <mat-card-content *ngIf="dataSource">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="producto">
+            <mat-header-cell *matHeaderCellDef> Productos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.product.nombre}}
+            </mat-cell>
+
+            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.precio | currency: 'CRC':'symbol-narrow'}} </mat-cell>
+            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field appearance="fill">
+                <input matInput id="cantidad" type="number" class="form-control mb-2" [(ngModel)]="element.cantidad"
+                  (change)="actualizarCantidad(element)" [max]="element.max">
+              </mat-form-field>
+
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="footer-total">SubTotal </mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="subtotal">
+            <mat-header-cell *matHeaderCellDef> Subtotal </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.subtotal | currency: 'CRC':'symbol-narrow' }} </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="footer-total">{{subtotal | currency:
+              'CRC':'symbol-narrow'}}</mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="eliminarItem(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns" class="header"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          <mat-footer-row *matFooterRowDef="displayedColumns" class="footer-row"></mat-footer-row>
+        </mat-table>
+
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button color="accent" (click)="registrarOrden()">
+          Realizar Pedido
+          <mat-icon>receipt_long</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step>
+  <mat-step [stepControl]="firstFormGroup" *ngIf="formalizarOrdenClicked"> <!-- [stepControl]="secondFormGroup"-->
+    <!--[formGroup]="secondFormGroup"-->
+    <ng-template matStepLabel>Tu Pedido</ng-template>
+    <mat-card class="box">
+      <mat-card-title>Orden de Compra</mat-card-title>
+      <mat-card-content>
+        Fecha: {{fecha | date: 'dd/MM/yyyy'}}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="box">
+      <mat-card-content *ngIf="dataSource">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="producto">
+            <mat-header-cell *matHeaderCellDef> Productos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.product.nombre}}
+            </mat-cell>
+
+            <mat-footer-cell *matFooterCellDef class="mat-footer"></mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.precio | currency: 'CRC':'symbol-narrow'}} </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="mat-footer"></mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{element.cantidad}}
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="mat-footer">
+              <br>
+              SubTotal
+              <br>
+              IVA 13%
+              <br>
+              <br>
+              Total
+            </mat-footer-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="subtotal">
+            <mat-header-cell *matHeaderCellDef> Subtotal </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.subtotal | currency: 'CRC':'symbol-narrow' }} </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="mat-footer">
+              <br>
+              {{subtotal | currency:'CRC':'symbol-narrow'}}
+              <br>
+              {{iva | currency:'CRC':'symbol-narrow'}}
+              <br>
+              <br>
+              {{total | currency:'CRC':'symbol-narrow'}}
+            </mat-footer-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columns" class="header"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columns"></mat-row>
+          <mat-footer-row *matFooterRowDef="columns" class="mat-footer"></mat-footer-row>
+        </mat-table>
+        <mat-divider></mat-divider>
+        <form [formGroup]="firstFormGroup">
+          
+          <mat-form-field  class="full-width">
+              <mat-select placeholder="Direccion" formControlName="direcciones" >
+                <mat-option *ngFor="let u of direcciones" [value]="u.id">
+                  {{ u.direccion}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+<mat-divider></mat-divider>
+            <mat-form-field  class="full-width">
+              <mat-select placeholder="Metodo de Pago" formControlName="mPagos" >
+                <mat-option *ngFor="let u of metodos" [value]="u.id">
+                  {{ u.nombre}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+
+        </form>
+
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button color="accent" (click)="modificarCarrito()">
+          Modificar Carrito
+          <mat-icon>keyboard_return</mat-icon>
+        </button>
+        |
+        <button mat-flat-button color="accent" (click)="registrarPedido()">
+          Realizar pago
+          <mat-icon>credit_card</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+  </mat-step>
+  <!-- <mat-step *ngIf="formalizarPedidoClicked">
+    <ng-template matStepLabel>Compra Realizada</ng-template>
+    <mat-card class="box">
+
+
+      <mat-card-actions align="end">
+        
+        
+        <button mat-flat-button color="accent" (click)="registrarPedido()">
+          Re
+          <mat-icon>credit_card</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step> -->
+</mat-stepper>

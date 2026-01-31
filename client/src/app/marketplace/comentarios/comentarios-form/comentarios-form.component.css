@@ -1,0 +1,19 @@
+.dialog {
+    background-color: rgb(3, 149, 149);
+  }
+  
+  .icon{
+      color: rgb(255, 255, 255);
+  }
+  
+  .field{
+      color: black;
+  }
+  
+  .text{
+      color: rgb(255, 255, 255);
+  }
+  
+  .input{
+      color: black;
+  }

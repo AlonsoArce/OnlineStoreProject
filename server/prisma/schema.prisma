@@ -1,0 +1,215 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                Int    @id @default(autoincrement())
+  nombreCompleto    String //Nombre Completo en un mismo campo ***podria separase en nombre y apellidos***
+  identificacion    String @unique //identificacion unica por usuario 
+  numeroTelefono    String //numero de telefono a usar como referencia
+  correoElectronico String @unique //correo electronico unico como identificador de autenticacion
+  contrasena        String //contrasena como valor para confirmar la autenticacion del usuario
+  estado            EstadoUsuario
+
+  //Relaciones
+  roles       Rol[] //tabla implicita de muchos a muchos entre rol y usuario
+  direcciones Direccion[] //1 usuario puede tener varias direcciones asociadas
+  metodosPago MetodoPago[] //1 usuario puede tener varios metodos de pago asociados
+  productos   Producto[] //1 usuario vendedor puede tener varios productos asociados
+  compras     Compra[] //1 usuario puede tener varias compras realizadas
+  preguntas   Pregunta[] //1 usuario puede tener varias preguntas hechas
+
+  //evaluaciones Evaluacion[]
+
+  evaluador Evaluacion[] @relation("evaluador")
+  evaluado  Evaluacion[] @relation("evaluado")
+}
+
+model Rol {
+  id   Int    @id @default(autoincrement())
+  tipo String // Tipo de Rol: Administrador, Cliente, Vendedor
+
+  //Relaciones
+  usuarios Usuario[] // Relacion implicita que permite que un usuario pueda ser cliente y vendedor a la vez 
+}
+
+//*Una compra debe tener asociado un solo una sola dirección 
+//correspondiente del usuario que realizó la compra*
+
+model Direccion {
+  id           Int    @id @default(autoincrement())
+  provincia    String
+  canton       String
+  distrito     String
+  direccion    String
+  codigoPostal String
+  telefono     String
+
+  //Relaciones
+  clienteId Int
+  cliente   Usuario @relation(fields: [clienteId], references: [id]) //1 dirección solo puede pertenecer a un mismo usuario
+
+  compras Compra[] // Una direccion puede estar en varias compras
+}
+
+//*Una compra debe tener asociado un solo método de pago 
+//correspondiente del usuario que realizó la compra*
+model MetodoPago {
+  id              Int    @id @default(autoincrement())
+  tipo            String
+  proveedor       String
+  numeroCuenta    String
+  fechaExpiracion String //***Podria ser date***
+
+  //Relaciones
+  clienteId Int
+  cliente   Usuario @relation(fields: [clienteId], references: [id]) //1 metodo de pago pertenece a un mismo usuario
+
+  compras Compra[] //Un metodo de pago puede estar en varias compras
+}
+
+model Categoria {
+  id     Int    @id @default(autoincrement())
+  nombre String
+
+  //Relaciones
+  productos Producto[] //una categoría puede tener varios productos asociados
+}
+
+model Producto {
+  id          Int    @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  precio      Float
+  cantidad    Int //Confusion con los nombres en las ordenes
+  estado      String
+
+  //Relaciones
+  categoriaId Int
+  categoria   Categoria @relation(fields: [categoriaId], references: [id]) // un producto debe pertenecer a una categoría
+
+  vendedorId Int
+  vendedor   Usuario @relation(fields: [vendedorId], references: [id]) // un producto debe tener un vendedor asociado
+
+  fotos         Foto[] // un producto debe tener varas fotos asociadas
+  detallesOrden DetalleCompra[] //relacion de muchos a muchos entre compra y producto
+  preguntas     Pregunta[]
+}
+
+//Buscar como guardar url e imagenes en la BD
+model Foto {
+  id  Int    @id @default(autoincrement())
+  url String
+
+  //Relaciones
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id]) //un producto tenga varias fotos asociadas
+}
+
+model Pregunta {
+  id        Int     @id @default(autoincrement())
+  mensaje   String
+  respuesta String //El vendedor debe poder responderlas. 
+
+  //Relaciones
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id]) //Para cada producto, los clientes podrán dejar mensajes, solicitando más detalle o preguntas.
+  clienteId  Int
+  cliente    Usuario  @relation(fields: [clienteId], references: [id])
+}
+
+//*Una comprar debe tener asociado un solo método de pago y una sola dirección 
+//correspondiente del usuario que realizó la compra*
+model Compra {
+  id        Int     @id @default(autoincrement())
+  impuestos Float
+  total     Float
+  estado    String?@default("Pendiente")  //una vez que todos los produtos son entregados se debe modificar
+
+  // Relaciones
+  clienteId  Int
+  cliente    Usuario    @relation(fields: [clienteId], references: [id])
+  // id Metododo de pago (que va relacionado con el cliente)
+  metodoId   Int
+  metodoPago MetodoPago @relation(fields: [metodoId], references: [id]) //1 metodo de pago pertenece a un mismo usuario
+
+  // id Direcion (Que va relacionado con el usuario )
+  direccionId Int
+  direccion   Direccion @relation(fields: [direccionId], references: [id])
+
+  evaluacion    Evaluacion[] //una compra tiene asignada una evalucacion
+  detallesOrden DetalleCompra[] //relacion de muchos a muchos entre compra y producto
+  // Revisar
+  //pedido        Pedido[]
+}
+
+//Falta otra tabla de estados de detalle de orden
+model DetalleCompra {
+  lineaDetalle Int
+  cantidad     Int
+  estadoDetalle String @default("Pendiente") 
+
+  //Relaciones
+  compraId   Int
+  compra     Compra   @relation(fields: [compraId], references: [id])
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@id([compraId, productoId, lineaDetalle]) //esta linea asigna las llaves primarias
+}
+
+//*Falta la gestión del pedido para cada producto y su respectivo estado*
+//model Pedido {
+  //id     Int    @id @default(autoincrement())
+ // estado Estado @default(PENDIENTE)
+//
+  //Relaciones
+//  compraId Int
+//  compra   Compra @relation(fields: [compraId], references: [id])
+//}
+
+//enum Estado {
+//  EN_PROCESO
+//  PENDIENTE
+//  ENTREGADO
+//  FINALIZADO
+//}
+
+enum TipoUsuario {
+  CLIENTE
+  VENDEDOR
+}
+
+
+enum EstadoUsuario {
+  HABILITADO
+  DESHABILITADO
+}
+
+
+model Evaluacion {
+  id           Int         @id @default(autoincrement())
+  calificacion Int
+  comentario   String
+  tipoUsuario  TipoUsuario
+
+  //Relaciones  
+  compraId Int
+  compra   Compra @relation(fields: [compraId], references: [id])
+
+  evaluador   Usuario? @relation("evaluador", fields: [evaluadorId], references: [id])
+  evaluadorId Int
+
+  evaluado   Usuario? @relation("evaluado", fields: [evaluadoId], references: [id])
+  evaluadoId Int
+}
+
+

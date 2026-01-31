@@ -1,0 +1,14 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+.mat-footer {
+  padding-top: 30px;
+  padding-bottom: 70px;
+  margin-bottom: 30px;
+  box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.2);
+}

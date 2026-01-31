@@ -1,0 +1,81 @@
+<div class="contenedor">
+<form [formGroup]="direccionesForm" novalidate >
+<!-- <input type="hidden" formControlName="id"  /> -->
+  <div class="infoDireccion">
+    <div class="col">
+        <mat-form-field class="cajitas">      
+        <mat-select placeholder="Provincias" formControlName="provincia" (selectionChange)="onProvinceChange($event)" >
+          <mat-option value="">Selecciona una provincia</mat-option>
+          <mat-option *ngFor="let provincia of provincias" [value]="provincia.id">
+            {{ provincia.nombre }}
+          </mat-option>
+        </mat-select>
+        </mat-form-field> 
+        <mat-form-field class="cajitas"> 
+        <mat-select placeholder="Cantones" formControlName="canton" (selectionChange)="onCantonChange($event)" >
+          <mat-option value="">Selecciona un cantón</mat-option>
+          <mat-option *ngFor="let canton of cantones" [value]="canton.id">
+            {{ canton.nombre }}
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
+        <mat-form-field class="cajitas">
+        <mat-select placeholder="Distritos" formControlName="distrito" (selectionChange)="onDistrictChange($event)">
+          <mat-option value="">Selecciona un distrito</mat-option>
+          <mat-option *ngFor="let distrito of distritos" [value]="distrito.id">
+            {{ distrito.nombre }}</mat-option>
+        </mat-select>    
+    </mat-form-field>
+    </div>     
+  </div> 
+  <div class="inputs">
+    <div class="">
+      <mat-form-field class="cajitas">
+        <input matInput placeholder="Dirección Exacta" formControlName="direccion">
+        <mat-error *ngIf="errorHandling('direccion','required')">
+          Dirección es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="errorHandling('direccion','minlength')">
+          Dirección debe tener como mínimo <strong>10 caracteres</strong> 
+        </mat-error>
+        <mat-error *ngIf="errorHandling('direccion','maxlength')">
+          Dirección debe tener como máximo <strong>200 caracteres</strong> 
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="">
+      <mat-form-field class="cajitas">
+        <input matInput placeholder="Código Postal" formControlName="codigoPostal">
+        <mat-error *ngIf="errorHandling('codigoPostal','required')">
+          Código Postal es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="errorHandling('codigoPostal','minlength')">
+          Código Postal debe tener como mínimo <strong>4 caracteres</strong> 
+        </mat-error>
+        <mat-error *ngIf="errorHandling('codigoPostal','maxlength')">
+          Código Postal debe tener como máximo <strong>5 caracteres</strong> 
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="">
+      <mat-form-field class="cajitas">
+        <input matInput placeholder="Teléfono" formControlName="telefono" >
+        <mat-error *ngIf="errorHandling('telefono','required')">
+          Teléfono es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="errorHandling('telefono','minlength')">
+          Teléfono debe tener como mínimo <strong>8 caracteres</strong> 
+        </mat-error>
+        <mat-error *ngIf="errorHandling('telefono','maxlength')">
+          Teléfono debe tener como máximo <strong>8 números</strong> 
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="footer">
+        <div class="div">
+            <button mat-raised-button color="primary" (click)="guardarDireccion()">Guardar</button>
+        </div>
+  </div>
+</form>
+</div>

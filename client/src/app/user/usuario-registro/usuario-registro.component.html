@@ -1,0 +1,110 @@
+<form [formGroup]="formCreate" novalidate>
+    <mat-card class="shipping-card">
+        <mat-card-header>
+            <mat-card-title>Crear Usuario </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput type="text" placeholder="Nombre usuario" formControlName="nombreCompleto" />
+                        <mat-error *ngIf="errorHandling('nombreCompleto', 'required')">
+                            Nombre es <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="text" placeholder="Email usuario" formControlName="correoElectronico" />
+                        <mat-error *ngIf="errorHandling('correoElectronico', 'required')">
+                            Email es <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Identificacion</mat-label>
+                        <input matInput type="text" placeholder="Digite su ID" formControlName="identificacion" />
+                        <mat-error *ngIf="errorHandling('identificacion', 'required')">
+                            La identificacion es <strong>requerida</strong>
+                        </mat-error>
+                          <mat-error *ngIf="errorHandling('identificacion','minlength')">
+                            El ID no debe ser un número menor de <strong>9 dígitos</strong> 
+                          </mat-error>
+                          <mat-error *ngIf="errorHandling('identificacion','maxlength')">
+                            El ID  no debe ser un número mayor de <strong>9 dígitos</strong> 
+                          </mat-error>
+                        <mat-error *ngIf="errorHandling('identificacion','pattern')">
+                            El ID es un dato númerico <strong>no debe contener caracteres</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Numero Telefonico</mat-label>
+                        <input matInput type="text" placeholder="Telefono" formControlName="numeroTelefono" />
+                        <mat-error *ngIf="errorHandling('numeroTelefono', 'required')">
+                            El Telefono es <strong>requerido</strong>
+                        </mat-error>
+                
+                          <mat-error *ngIf="errorHandling('numeroTelefono','minlength')">
+                            El Telefono no debe ser un número menor de <strong>8 dígitos</strong> 
+                          </mat-error>
+                          <mat-error *ngIf="errorHandling('numeroTelefono','maxlength')">
+                            El Telefono no debe ser un número mayor de <strong>8 dígitos</strong> 
+                          </mat-error>
+                        <mat-error *ngIf="errorHandling('numeroTelefono','pattern')">
+                           El Telefono es un dato númerico <strong>no debe contener caracteres</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password usuario"
+                            formControlName="contrasena" />
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="errorHandling('contrasena', 'required')">
+                            La contrasena es <strong>requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Rol</mat-label>
+                        <mat-select placeholder="Rol" formControlName="roles">
+                            <mat-option value="Cliente">
+                                Cliente
+                            </mat-option>
+                            <mat-option value="Vendedor">
+                                Vendedor
+                            </mat-option>
+                            <mat-option value="Ambos">
+                                Vendedor/Usuario
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="submitForm()">Registrar</button>
+            <button mat-raised-button color="accent" type="reset" (click)="onReset()">Cancelar</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

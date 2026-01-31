@@ -1,0 +1,9 @@
+
+.body-container{
+    display: block;
+    padding-top: 2em;
+    padding-bottom: 20em;
+    background-image: url('../assets/fondoPantalla/fondo_5_online_shop.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,68 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.dashboard-card-content{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color:beige
+}
+
+.contenedorBotones{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.title{
+    margin-bottom: 5px;
+}
+
+p{
+    text-align: justify;
+}
+
+.example-card {
+    max-width: 250px;
+    height: auto;
+    background-color: white;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+
+.imagen{
+    width: 200px;
+    height: 200px;
+}
+  
+.actions{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button{
+    background-color:coral;
+    text-align: justify;
+    text-align: center;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 30px;
+}
+
+.navBar{
+    background-color:white;
+    margin-top: 20px;
+    margin-right: 30px;
+}
+
+

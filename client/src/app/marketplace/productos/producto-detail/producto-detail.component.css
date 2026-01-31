@@ -1,0 +1,80 @@
+.contenedor{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fotos{
+  width: 400px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 5%;
+}
+
+.informacionProducto{
+  width: 400px;
+  height: 400px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  padding-top: 10px;
+  padding-left: 15px;
+  border-radius: 2%;
+  border-left-color: rgb(200, 200, 192);
+  background-color:honeydew;
+}
+
+.imagen{
+  width: 250px;
+  height: 200px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.card {
+  margin-bottom: 10px;
+  background-color: rgb(9, 169, 150);
+  color: rgb(251, 251, 251);
+  border-top: 30px;
+           
+}
+
+.container{
+  background-color: rgb(9, 169, 150);
+}
+
+.content {
+  background-color: rgb(7, 105, 105);
+  margin-left: 20px; 
+  border: 1px solid #ccc; /* Agrega un borde al card */
+  border-radius: 10px; /* Establece el radio de las esquinas para hacerlas redondeadas */
+  padding: 10px; /* Ajusta el relleno interno para evitar que el contenido toque el borde */
+  
+}
+.respuesta{
+  margin-top: 10px;
+  display: flex;
+  align-items: center; 
+}
+.icon{
+  margin-top: -10px;
+  margin-right: 10px;
+}
+.header {
+  background-color: rgb(9, 148, 148);
+  
+  border: 1px solid #ccc; /* Agrega un borde al card */
+  border-radius: 10px; /* Establece el radio de las esquinas para hacerlas redondeadas */
+  padding: 10px; /* Ajusta el relleno interno para evitar que el contenido toque el borde */
+}
+mat-card {
+  
+  border: 1px solid #ccc; /* Agrega un borde al card */
+  border-radius: 5px; /* Establece el radio de las esquinas para hacerlas redondeadas */
+  padding: 10px; /* Ajusta el relleno interno para evitar que el contenido toque el borde */
+  
+}
